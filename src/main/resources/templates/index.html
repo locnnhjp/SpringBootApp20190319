@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Top page</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+<body>
+	<h1 th:text="#{content.title}">Hello Page</h1>
+	<table>
+		<form method="post" action="/" th:object="${formModel}">
+			<tr>
+				<td><label for="name">名前</label></td>
+				<td><input type="text" name="name" th:value="*{name}" /></td>
+			</tr>
+			<tr>
+				<td><label for="age">年齢</label></td>
+				<td><input type="text" name="age" th:value="*{age}" /></td>			
+			</tr>
+			<tr>
+				<td><label for="mail">メール</label></td>
+				<td><input type="text" name="mail" th:value="*{mail}" /></td>			
+			</tr>
+			<tr>
+				<td><label for="memo">メモ</label></td>
+				<td><textarea name="memo" th:text="*{memo}" cols="20" rows="5"></textarea></td>			
+			</tr>
+			<tr>
+				<td></td><td><input type="submit" />
+			</tr>
+		</form>
+	</table>
+	<hr />
+	<table>
+		<tr>
+			<th>ID</th><th>名前</th>
+		</tr>
+		<tr th:each="obj : ${datalist}">
+			<td th:text="${obj.id}"></td>
+			<th th:text="${obj.name}"></th>
+		</tr>
+	</table>
+</body>
+</html>
