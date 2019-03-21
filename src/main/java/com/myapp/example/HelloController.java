@@ -16,6 +16,12 @@ public class HelloController {
 	@Autowired
 	MyDataRepository repository;
 	
+	/**
+	 * indexメソッド
+	 * @param mydata
+	 * @param mav
+	 * @return
+	 */
 	@RequestMapping(value="/", method=RequestMethod.GET)
 	public ModelAndView index(
 			@ModelAttribute("formModel") MyData mydata,
