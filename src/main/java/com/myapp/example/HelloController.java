@@ -33,6 +33,12 @@ public class HelloController {
 		return mav;
 	}
 	
+	/**
+	 * formメソッド
+	 * @param myData
+	 * @param mav
+	 * @return
+	 */
 	@RequestMapping(value="/", method=RequestMethod.POST)
 	@Transactional(readOnly=false)
 	public ModelAndView form(
