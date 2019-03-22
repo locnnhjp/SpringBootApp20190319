@@ -26,6 +26,9 @@ public class MyData {
 	
 	@Column(nullable = true)
 	private String memo;
+	
+	@Column(nullable = true)
+	private int deleteFlag;
 
 	public long getId() {
 		return id;
@@ -66,4 +69,14 @@ public class MyData {
 	public void setMemo(String memo) {
 		this.memo = memo;
 	}
+	
+	public int getDeleteFlag() {
+		return deleteFlag;
+	}
+	
+	public void setDeleteFlag(int deleteFlag) {
+		this.deleteFlag = deleteFlag;
+	}
+	
+	
 }

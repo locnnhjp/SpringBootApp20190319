@@ -7,37 +7,50 @@
 </head>
 <body>
 	<h1 th:text="#{content.title}">Hello Page</h1>
-	<table>
-		<form method="post" action="/" th:object="${formModel}">
+	<form method="post" action="/" th:object="${formModel}">
+		<table>
+
 			<tr>
 				<td><label for="name">名前</label></td>
 				<td><input type="text" name="name" th:value="*{name}" /></td>
 			</tr>
 			<tr>
 				<td><label for="age">年齢</label></td>
-				<td><input type="text" name="age" th:value="*{age}" /></td>			
+				<td><input type="text" name="age" th:value="*{age}" /></td>
 			</tr>
 			<tr>
 				<td><label for="mail">メール</label></td>
-				<td><input type="text" name="mail" th:value="*{mail}" /></td>			
+				<td><input type="text" name="mail" th:value="*{mail}" /></td>
 			</tr>
 			<tr>
 				<td><label for="memo">メモ</label></td>
-				<td><textarea name="memo" th:text="*{memo}" cols="20" rows="5"></textarea></td>			
+				<td><textarea name="memo" th:text="*{memo}" cols="20" rows="5"></textarea></td>
 			</tr>
 			<tr>
-				<td></td><td><input type="submit" />
+				<td></td>
+				<td><input type="submit" value="登録" />
 			</tr>
-		</form>
-	</table>
+
+		</table>
+	</form>
 	<hr />
 	<table>
 		<tr>
-			<th>ID</th><th>名前</th>
+			<th>ID</th>
+			<th>名前</th>
+			<th>年齢</th>
+			<th>メール</th>
+			<th>メモ</th>
+			<th></th>
 		</tr>
 		<tr th:each="obj : ${datalist}">
+		
 			<td th:text="${obj.id}"></td>
-			<th th:text="${obj.name}"></th>
+			<td th:text="${obj.name}"></td>
+			<td th:text="${obj.age}"></td>
+			<td th:text="${obj.mail}"></td>
+			<td th:text="${obj.memo}"></td>
+			<td><a th:href="@{'/edit/' + ${obj.id}}">EDIT</a></td>
 		</tr>
 	</table>
 </body>
