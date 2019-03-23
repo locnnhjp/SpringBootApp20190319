@@ -30,3 +30,7 @@ td {
 	color: black;
 	background: #f0f0f0;
 }
+
+.err {
+	color : red;
+}

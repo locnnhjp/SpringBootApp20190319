@@ -7,7 +7,13 @@
 </head>
 <body>
 	<h1 th:text="#{content.title}">Hello Page</h1>
+	<p th:text="${msg}"></p>
+
 	<form method="post" action="/" th:object="${formModel}">
+		<ul>
+			<li th:each="error: ${#fields.detailedErrors()}"
+				class="err" th:text="${error.message}" />
+		</ul>
 		<table>
 
 			<tr>

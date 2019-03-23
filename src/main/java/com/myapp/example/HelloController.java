@@ -1,6 +1,7 @@
 package com.myapp.example;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 import javax.annotation.PostConstruct;
@@ -8,6 +9,8 @@ import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,40 +21,52 @@ import com.myapp.example.repositories.MyDataRepository;
 
 @Controller
 public class HelloController {
-	
+
 	@Autowired
 	MyDataRepository repository;
-	
+
 	/**
 	 * indexメソッド
+	 * 
 	 * @param mydata
 	 * @param mav
 	 * @return
 	 */
-	@RequestMapping(value="/", method=RequestMethod.GET)
-	public ModelAndView index(
-			@ModelAttribute("formModel") MyData mydata,
-			ModelAndView mav) {
+	@RequestMapping(value = "/", method = RequestMethod.GET)
+	public ModelAndView index(@ModelAttribute("formModel") MyData mydata, ModelAndView mav) {
 		mav.setViewName("index");
 		mav.addObject("msg", "This is sample content");
-		Iterator<MyData> list = repository.findByDeleteFlag(0);
+		mav.addObject("formModel", mydata);
+		Iterable<MyData> list = repository.findAll();
 		mav.addObject("datalist", list);
 		return mav;
 	}
-	
+
 	/**
 	 * formメソッド
+	 * 
 	 * @param myData
 	 * @param mav
 	 * @return
 	 */
-	@RequestMapping(value="/", method=RequestMethod.POST)
-	@Transactional(readOnly=false)
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	@Transactional(readOnly = false)
 	public ModelAndView form(
-			@ModelAttribute("formModel") MyData myData,
-			ModelAndView mav) {
-		repository.saveAndFlush(myData);
-		return new ModelAndView("redirect:/");
+		@ModelAttribute("formModel") @Validated MyData myData,
+		BindingResult result,
+		ModelAndView mav) {
+		ModelAndView res = null;
+		if (!result.hasErrors()) {
+			repository.saveAndFlush(myData);
+			res = new ModelAndView("redirect:/");
+		} else {
+			mav.setViewName("index");
+			mav.addObject("msg", "sorry, error is occured...");
+			Iterable<MyData> list = repository.findAll();
+			mav.addObject("datalist", list);
+			res = mav;
+		}
+		return res;
 	}
 	
 	/**
@@ -96,7 +111,6 @@ public class HelloController {
 		d1.setAge(30);
 		d1.setMail("amazon@sample.com");
 		d1.setMemo("This is amazon data!");
-		d1.setDeleteFlag(1);
 		repository.saveAndFlush(d1);
 		
 		MyData d2 = new MyData();
@@ -104,7 +118,6 @@ public class HelloController {
 		d2.setAge(30);
 		d2.setMail("apple@sample.com");
 		d2.setMemo("This is apple data!");
-		d2.setDeleteFlag(0);
 		repository.saveAndFlush(d2);
 		
 		MyData d3 = new MyData();
